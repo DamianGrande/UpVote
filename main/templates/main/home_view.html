@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.1/css/bulma.css"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"/>
+    <link rel="stylesheet" href="..public/styles.css"/>
+    <meta charset="UTF-8">
+    <title>UpVote!</title>
+</head>
+<body>
+<div id="app">
+    <h2 class="title has-text-centered dividing-header">UpVote!</h2>
+    <div id="postCell" class="section">
+        <article class="media">
+            <figure class="media-left">
+                <img class="image is-64x64" src="../static/images.png"/>
+            </figure>
+            <div id="postContent" class="media-content">
+                <div class="content">
+                    <p>
+                        <strong>
+                            <a id="title" href="#" class="has-text-info">E così, ci siamo.</a>
+                            <span class="tag is-small">#4</span>
+                        </strong>
+
+                        <br/>
+
+                        <span id="message">
+                        Fa' quello che devi.
+                        </span>
+
+                        <br/>
+                        <small id="author" class="is-size-7">
+                            Pubblicato da:
+                            <img class="image is-24x24" src="../static/images.png"/>
+                        </small>
+                    </p>
+                </div>
+            </div>
+            <div id="votes" class="media-right">
+                    <span class="icon is-small">
+                        <i class="fa fa-chevron-up"></i>
+                        <strong class="has-text-info">10</strong>
+                    </span>
+            </div>
+        </article>
+    </div>
+</div>
+<script src="https://unpkg.com/vue"></script>
+</body>
+</html>
