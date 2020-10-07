@@ -3,7 +3,6 @@
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.1/css/bulma.css"/>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"/>
-    <link rel="stylesheet" href="..public/styles.css"/>
     <meta charset="UTF-8">
     <title>UpVote!</title>
 </head>
@@ -13,26 +12,28 @@
     <div id="postCell" class="section">
         <article class="media">
             <figure class="media-left">
-                <img class="image is-64x64" src="../static/images.png"/>
+                <img class="image is-64x64" v-bind:src="submission_image"/>
             </figure>
             <div id="postContent" class="media-content">
                 <div class="content">
                     <p>
                         <strong>
-                            <a id="title" href="#" class="has-text-info">E così, ci siamo.</a>
-                            <span class="tag is-small">#4</span>
+                            <a id="title" v-bind:href="url" class="has-text-info">{% autoescape on %}
+                                {{ submission.title }}
+                            {% endautoescape %}</a>
+                            <span class="tag is-small">#{{ submission.id }}</span>
                         </strong>
 
                         <br/>
 
                         <span id="message">
-                        Fa' quello che devi.
+                        #{description}
                         </span>
 
                         <br/>
                         <small id="author" class="is-size-7">
                             Pubblicato da:
-                            <img class="image is-24x24" src="../static/images.png"/>
+                            <img class="image is-24x24" v-bind:src="avatar"/>
                         </small>
                     </p>
                 </div>
@@ -40,12 +41,30 @@
             <div id="votes" class="media-right">
                     <span class="icon is-small">
                         <i class="fa fa-chevron-up"></i>
-                        <strong class="has-text-info">10</strong>
+                        <strong class="has-text-info">#{votes}</strong>
                     </span>
             </div>
         </article>
     </div>
 </div>
-<script src="https://unpkg.com/vue"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.min.js"></script>
+<script>
+    new Vue(
+        {
+            el: '#app',
+            delimiters: ['#{', '}'],
+            data: {
+
+                'title': '{{ submission.title }}',
+                'description': '{{ submission.description }}',
+                'url': '{{ submission.url }}',
+                'votes': {{ submission.votes }},
+                'avatar': '{{ submission.avatar }}',
+                'submission_image': '{{ submission.submission_image }}'
+
+            }
+        }
+    );
+</script>
 </body>
 </html>
