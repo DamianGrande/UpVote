@@ -22,16 +22,24 @@ class HomePageTest(StaticLiveServerTestCase):
 
         self.assertEqual('UpVote!', self.browser.title)
 
-    def test_vote_post(self):
+    def test_submission_structure(self):
         self.browser.get(self.live_server_url)
 
-        post_cell = self.browser.find_element_by_id('postCell')
-        post_cell.find_element_by_tag_name('img')
-        self.browser.find_element_by_id('votes')
-        post_content = post_cell.find_element_by_id('postContent')
-        post_content.find_element_by_id('title')
-        post_content.find_element_by_id('message')
-        post_content.find_element_by_id('author')
+        post_cell = self.browser.find_element_by_id(f'postCell {1}')
+        post_cell.find_element_by_id(f'image {1}')
+        self.browser.find_element_by_id(f'votes {1}')
+        post_content = post_cell.find_element_by_id(f'postContent {1}')
+        post_content.find_element_by_id(f'title {1}')
+        post_content.find_element_by_id(f'message {1}')
+        post_content.find_element_by_id(f'author {1}')
+
+    def test_all_submissions_visible(self):
+        self.browser.get(self.live_server_url)
+
+        self.browser.find_element_by_id(f'postCell {1}')
+        self.browser.find_element_by_id(f'postCell {2}')
+        self.browser.find_element_by_id(f'postCell {3}')
+        self.browser.find_element_by_id(f'postCell {4}')
 
     if __name__ == '__main__':
         unittest.main()

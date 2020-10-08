@@ -9,39 +9,42 @@
 <body>
 <div id="app">
     <h2 class="title has-text-centered dividing-header">UpVote!</h2>
-    <div id="postCell" class="section">
+    <div v-for="submission in submissions" v-bind:key="'mainDiv ' + submission.id"
+         v-bind:id="'postCell ' + submission.id" class="section">
         <article class="media">
             <figure class="media-left">
-                <img class="image is-64x64" v-bind:src="submission_image"/>
+                <img v-bind:id="'image ' + submission.id" class="image is-64x64"
+                     v-bind:src="submission.submission_image"/>
             </figure>
-            <div id="postContent" class="media-content">
+            <div v-bind:id="'postContent ' + submission.id" class="media-content">
                 <div class="content">
                     <p>
                         <strong>
-                            <a id="title" v-bind:href="url" class="has-text-info">{% autoescape on %}
-                                {{ submission.title }}
-                            {% endautoescape %}</a>
-                            <span class="tag is-small">#{{ submission.id }}</span>
+                            <a v-bind:id="'title ' + submission.id" v-bind:href="submission.url"
+                               class="has-text-info">
+                                #{submission.title}
+                            </a>
+                            <span class="tag is-small">##{submission.id}</span>
                         </strong>
 
                         <br/>
 
-                        <span id="message">
-                        #{description}
+                        <span v-bind:id="'message ' + submission.id">
+                        #{submission.description}
                         </span>
 
                         <br/>
-                        <small id="author" class="is-size-7">
+                        <small v-bind:id="'author ' + submission.id" class="is-size-7">
                             Pubblicato da:
-                            <img class="image is-24x24" v-bind:src="avatar"/>
+                            <img class="image is-24x24" v-bind:src="submission.avatar"/>
                         </small>
                     </p>
                 </div>
             </div>
-            <div id="votes" class="media-right">
+            <div v-bind:id="'votes ' + submission.id" class="media-right">
                     <span class="icon is-small">
                         <i class="fa fa-chevron-up"></i>
-                        <strong class="has-text-info">#{votes}</strong>
+                        <strong class="has-text-info">#{submission.votes}</strong>
                     </span>
             </div>
         </article>
@@ -54,14 +57,7 @@
             el: '#app',
             delimiters: ['#{', '}'],
             data: {
-
-                'title': '{{ submission.title }}',
-                'description': '{{ submission.description }}',
-                'url': '{{ submission.url }}',
-                'votes': {{ submission.votes }},
-                'avatar': '{{ submission.avatar }}',
-                'submission_image': '{{ submission.submission_image }}'
-
+                'submissions': {{submissions|safe}}
             }
         }
     );
