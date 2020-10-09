@@ -3,16 +3,28 @@
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.1/css/bulma.css"/>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"/>
+    <link rel="stylesheet" href="../static/customCss.css"/>
     <meta charset="UTF-8">
     <title>UpVote!</title>
 </head>
 <body>
 <div id="app">
     <h2 class="title has-text-centered dividing-header">UpVote!</h2>
-    <div v-for="submission in submissions" v-bind:key="'mainDiv ' + submission.id"
+    <div v-for="submission in sortedSubmissions" v-bind:key="'mainDiv ' + submission.id"
          v-bind:id="'postCell ' + submission.id" class="section">
-        <article class="media">
-            <figure class="media-left">
+        <article class="media" v-bind:class="{'blue-border': submission.votes > 19}">
+            <submission-component v-bind:submission="submission"
+                                  v-bind:submissions="sortedSubmissions"></submission-component>
+        </article>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.min.js"></script>
+<script>
+
+    const submissionComponent = {
+        template: `
+        <div style="display: flex; width: 100%">
+           <figure class="media-left">
                 <img v-bind:id="'image ' + submission.id" class="image is-64x64"
                      v-bind:src="submission.submission_image"/>
             </figure>
@@ -41,23 +53,43 @@
                     </p>
                 </div>
             </div>
-            <div v-bind:id="'votes ' + submission.id" class="media-right">
+            <div v-bind:id="'votes ' + submission.id" class="media-right margin-right">
                     <span class="icon is-small">
-                        <i class="fa fa-chevron-up"></i>
+                        <i v-on:click="upVote(submission.id)" class="fa fa-chevron-up"></i>
                         <strong class="has-text-info">#{submission.votes}</strong>
                     </span>
             </div>
-        </article>
-    </div>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.min.js"></script>
-<script>
+        </div>
+
+        `,
+        props: ['submission', 'submissions'],
+        methods: {
+            upVote(id) {
+                const submission = this.submissions.find(
+                    submission => submission.id === id
+                );
+                submission.votes++;
+            }
+        },
+        delimiters: ['#{', '}'],
+    };
+
     new Vue(
         {
             el: '#app',
             delimiters: ['#{', '}'],
             data: {
                 'submissions': {{submissions|safe}}
+            },
+            computed: {
+                sortedSubmissions() {
+                    return this.submissions.sort((a, b) => {
+                        return b.votes - a.votes;
+                    });
+                }
+            },
+            components: {
+                'submission-component': submissionComponent
             }
         }
     );
